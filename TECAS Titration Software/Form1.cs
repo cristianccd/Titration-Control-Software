@@ -324,15 +324,14 @@ namespace TECAS_Titration_Software
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(delegate
-                {
-                    bTimer.Enabled = false;
+                {                                       
                     serialPort1.Write("RUN\r\n");
                     System.Threading.Thread.Sleep(20);
                     AccumVolInf = AccumVolInf + AdditionVol;
                     label9.Text = String.Format("{0:00000.00}", AccumVolInf) + " ul";
+                    chart1.Series["Series1"].Points.AddXY(AccumVolInf, pHAvgVal);
                     PointIndex = chart1.Series["Series1"].Points.Count;
-                    chart1.Series["Series1"].Points.AddXY(AccumVolInf, pHAvgVal);         
-                    
+
                     if (PointIndex > 1 && (chart1.Series["Series1"].Points[PointIndex - 1].XValue - chart1.Series["Series1"].Points[PointIndex - 2].XValue) != 0)
                         FirstDer = (chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] - chart1.Series["Series1"].Points[PointIndex - 2].YValues[0])
                                 / (chart1.Series["Series1"].Points[PointIndex - 1].XValue - chart1.Series["Series1"].Points[PointIndex - 2].XValue);
@@ -343,11 +342,10 @@ namespace TECAS_Titration_Software
                                 / (chart1.Series["Series2"].Points[PointIndex - 1].XValue - chart1.Series["Series2"].Points[PointIndex - 2].XValue);
                     chart1.Series["Series3"].Points.AddXY(AccumVolInf, SecDer);
 
-                    sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + "," 
+                    sw.Write(",," + chart1.Series["Series1"].Points[PointIndex-1].XValue + "," 
                         + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] +",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue 
                         + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series3"].Points[PointIndex - 1].XValue 
                         + "," + chart1.Series["Series3"].Points[PointIndex - 1].YValues[0] + ",," + label11.Text + "\n");
-                    bTimer.Enabled = true;
                 }));
             }
         }
@@ -358,6 +356,10 @@ namespace TECAS_Titration_Software
             {
                 Invoke(new MethodInvoker(delegate
                 {
+                    //Refresh GUI
+                    label13.Text = String.Format("{0:0.00000 V}", dblValue);
+                    label11.Text = String.Format("{0}", (DateTime.Now - ExpStart).Days) + " days " + String.Format("{0:00}", (DateTime.Now - ExpStart).Hours) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Minutes) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Seconds);
+                    
                     bool requestedExit = false;
                     while (!requestedExit)
                     {
@@ -410,10 +412,6 @@ namespace TECAS_Titration_Software
                                     label7.Text = String.Format("{0:0.000}", pHDeviation);
                                 } 
                             }
-
-                            //Refresh GUI
-                            label13.Text = String.Format("{0:0.00000 V}", dblValue);
-                            label11.Text = String.Format("{0}", (DateTime.Now - ExpStart).Days) + " days " + String.Format("{0:00}", (DateTime.Now - ExpStart).Hours) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Minutes) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Seconds);
                         }
                         try
                         {

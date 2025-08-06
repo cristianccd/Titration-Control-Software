@@ -22,3 +22,15 @@ C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.1\TECAS Titratio
 C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.1\TECAS Titration Software\obj\Release\TECAS Titration Software.csproj.GenerateResource.Cache
 C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.1\TECAS Titration Software\obj\Release\TECAS Titration Software.exe.manifest
 C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.1\TECAS Titration Software\obj\Release\TECAS Titration Software.application
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.pdb
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\bin\Release\TECAS Titration Software.exe.manifest
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\bin\Release\TECAS Titration Software.application
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\bin\Release\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\bin\Release\TECAS Titration Software.pdb
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.csprojResolveAssemblyReference.cache
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS_Titration_Software.Form1.resources
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS_Titration_Software.Properties.Resources.resources
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.csproj.GenerateResource.Cache
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.exe.manifest
+C:\Users\User\Dropbox\ESR4\Software\TECAS Titration Software V1.2\TECAS Titration Software\obj\Release\TECAS Titration Software.application
