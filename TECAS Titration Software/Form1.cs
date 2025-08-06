@@ -36,14 +36,14 @@ namespace TECAS_Titration_Software
         //Other Vars
         double AccumVolInf, Ticks;
         DateTime ExpStart;
-        System.Timers.Timer aTimer, bTimer;
+        System.Timers.Timer aTimer;
 
         //pH Vars
         double pHAccVal, pHAvgVal, pHDeviation, FirstDer, SecDer;
         int PointIndex;
         DateTime InfStart;
 
-        bool Paused = false;
+        bool Paused = false, Stoped = false;
 
         //------------------------------------------------------------------------------------
         private void syringeCalibrationFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -256,9 +256,7 @@ namespace TECAS_Titration_Software
             ExpStart = DateTime.Now;
             InfStart = DateTime.Now;
             aTimer = new System.Timers.Timer(MixingTime*1000);
-            bTimer = new System.Timers.Timer(50);
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEventA);
-            bTimer.Elapsed += new ElapsedEventHandler(OnTimedEventB);
 
             //Export Data
             string _FirstLine = "pH Set: "+ Convert.ToString(pHEnd) +",VOLUME,Volume,pH,,DPH/DV,Volume, dpH/dV,,D(DPH)/D(DV),Volume,d(dpH)/d(dV),,Time\n";
@@ -278,7 +276,7 @@ namespace TECAS_Titration_Software
             //End Export Data
 
             aTimer.Enabled = true;
-            bTimer.Enabled = true;
+            timer1.Enabled = true;
         }
 
         //Stop
@@ -350,83 +348,86 @@ namespace TECAS_Titration_Software
             }
         }
         //Get the DAQ Results every 50ms
-        private void OnTimedEventB(Object source, ElapsedEventArgs e)
+
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            if (InvokeRequired)
+            timer1.Enabled = false;
+            //Refresh GUI
+            label13.Text = String.Format("{0:0.00000 V}", dblValue);
+            label11.Text = String.Format("{0}", (DateTime.Now - ExpStart).Days) + " days " + String.Format("{0:00}", (DateTime.Now - ExpStart).Hours) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Minutes) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Seconds);
+
+            bool requestedExit = false;
+            while (!requestedExit)
             {
-                Invoke(new MethodInvoker(delegate
+                try
                 {
-                    //Refresh GUI
-                    label13.Text = String.Format("{0:0.00000 V}", dblValue);
-                    label11.Text = String.Format("{0}", (DateTime.Now - ExpStart).Days) + " days " + String.Format("{0:00}", (DateTime.Now - ExpStart).Hours) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Minutes) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Seconds);
-                    
-                    bool requestedExit = false;
-                    while (!requestedExit)
+                    LJUD.GoOne(u3.ljhandle);
+                    LJUD.GetFirstResult(u3.ljhandle, ref ioType, ref channel, ref dblValue, ref dummyInt, ref dummyDouble);
+                }
+                catch (LabJackUDException)
+                {
+                    MessageBox.Show("Error getting the DAQ results", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                if (ioType == LJUD.IO.GET_AIN_DIFF)
+                {
+                    Ticks++;
+                    pHAccVal = pHAccVal + ((dblValue - pHCalIntercept) / pHCalSlope);
+                    if (Ticks >= 10)
                     {
-                        try
+                        pHAvgVal = pHAccVal / 10;
+                        if (checkBox1.Checked == true)
                         {
-                            LJUD.GoOne(u3.ljhandle);
-                            LJUD.GetFirstResult(u3.ljhandle, ref ioType, ref channel, ref dblValue, ref dummyInt, ref dummyDouble);
-                        }
-                        catch (LabJackUDException)
-                        {
-                            MessageBox.Show("Error getting the DAQ results", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        if (ioType == LJUD.IO.GET_AIN_DIFF)
-                        {
-                            Ticks++;
-                            pHAccVal = pHAccVal + ((dblValue - pHCalIntercept) / pHCalSlope);
-                            if (Ticks >= 10)
+                            pHDeviation = pHEnd - pHAvgVal;
+                            label7.Text = String.Format("{0:0.000}", pHDeviation);
+                            if (FirstpH)
                             {
-                                pHAvgVal = pHAccVal / 10;
-                                
-                                //Check for pH start and end
-                                if (checkBox1.Checked)
+                                FirstpHVal = pHAvgVal;
+                                FirstpH=false;
+                            }
+                            //Check for pH start and end
+                            else
+                            {
+                                if (FirstpHVal < pHEnd) //pH is increasing
                                 {
-                                    if (FirstpH)
-                                        FirstpHVal = pHAvgVal;
-                                    else
+                                    if (pHAvgVal >= pHEnd) //stop
                                     {
-                                        if (FirstpHVal < pHEnd) //pH is increasing
-                                        {
-                                            if (pHAvgVal >= pHEnd) //stop
-                                            {
-                                                Stop();
-                                            }
-                                        }
-                                        else //pH decreasing
-                                        {
-                                            if (pHAvgVal <= pHEnd) //stop
-                                            {
-                                                Stop();
-                                            }
-                                        }
+                                        Stoped = Stop();
                                     }
                                 }
-                                label5.Text = String.Format("{0:0.000}", pHAvgVal);
-                                Ticks = 0;
-                                pHAccVal = 0;
-                                if (checkBox1.Checked == true)
+                                else //pH decreasing
                                 {
-                                    pHDeviation = pHEnd - pHAvgVal;
-                                    label7.Text = String.Format("{0:0.000}", pHDeviation);
-                                } 
+                                    if (pHAvgVal <= pHEnd) //stop
+                                    {
+                                        Stoped = Stop();
+                                    }
+                                }
                             }
+
                         }
-                        try
-                        {
-                            LJUD.GetNextResult(u3.ljhandle, ref ioType, ref channel, ref dblValue, ref dummyInt, ref dummyDouble);
-                        }
-                        catch (LabJackUDException h)
-                        {
-                            if (h.LJUDError == U3.LJUDERROR.NO_MORE_DATA_AVAILABLE)
-                                requestedExit = true;//no more data to read
-                            else
-                                MessageBox.Show("Error getting DAQ data", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        label5.Text = String.Format("{0:0.000}", pHAvgVal);
+                        Ticks = 0;
+                        pHAccVal = 0;
                     }
-                }));
+                }
+                try
+                {
+                    LJUD.GetNextResult(u3.ljhandle, ref ioType, ref channel, ref dblValue, ref dummyInt, ref dummyDouble);
+                }
+                catch (LabJackUDException h)
+                {
+                    if (h.LJUDError == U3.LJUDERROR.NO_MORE_DATA_AVAILABLE)
+                        requestedExit = true;//no more data to read
+                    else
+                        MessageBox.Show("Error getting DAQ data", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+            if (Stoped)
+            {
+                timer1.Enabled = false;
+                Stoped = false;
+            }
+            else
+                timer1.Enabled = true;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -456,18 +457,19 @@ namespace TECAS_Titration_Software
             }
         }
 
-        private void Stop()
+        private bool Stop()
         {
-                if (serialPort1.IsOpen)
-                    serialPort1.Close();
-                aTimer.Enabled = false;
-                bTimer.Enabled = false;
-                sw.Close();
-                //Enable start again
-                button1.Enabled = true;
-                button2.Enabled = false;
-                button3.Enabled = false;
-                panel4.Enabled = true;       
+            if (serialPort1.IsOpen)
+                serialPort1.Close();
+            timer1.Enabled = false;
+            aTimer.Enabled = false;
+            sw.Close();
+            //Enable start again
+            button1.Enabled = true;
+            button2.Enabled = false;
+            button3.Enabled = false;
+            panel4.Enabled = true;
+            return true;
         }
     }
 }
