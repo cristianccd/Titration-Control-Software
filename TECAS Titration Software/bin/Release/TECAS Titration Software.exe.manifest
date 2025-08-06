@@ -55,17 +55,35 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="771584">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="772608">
       <assemblyIdentity name="TECAS Titration Software" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>gKWgEDi9sLDpNRygWDM+2ottR7Y=</dsig:DigestValue>
+        <dsig:DigestValue>567A0WNNn1uLPP6bssrle7tCa5s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="TECAS Titration Software.exe.config" size="161">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>XhmNWIUSMbaVlaWABznwa4dcyj0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="TECAS Titration Software.pdb" size="38400">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>3xUMwNoqOxCELM/iMptd92nanQc=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Untitled.ico" size="370070">
     <hash>
       <dsig:Transforms>

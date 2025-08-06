@@ -14,7 +14,7 @@ using System.Windows.Forms;
 namespace TECAS_Titration_Software
 {
     public partial class Form1 : Form
-    {
+    {       
         public Form1()
         {
             InitializeComponent();
@@ -296,21 +296,37 @@ namespace TECAS_Titration_Software
                     chart1.Series["Series1"].Enabled = true;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = false;
+
+                    chart1.Series.Invalidate();
+                    chart1.Series.SuspendUpdates();
+                    chart1.Series.ResumeUpdates();
                     break;
                 case 0:
                     chart1.Series["Series1"].Enabled = true;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = false;
+
+                    chart1.Series.Invalidate();
+                    chart1.Series.SuspendUpdates();
+                    chart1.Series.ResumeUpdates();
                     break;
                 case 1:
                     chart1.Series["Series1"].Enabled = false;
                     chart1.Series["Series2"].Enabled = true;
                     chart1.Series["Series3"].Enabled = false;
+
+                    chart1.Series.Invalidate();
+                    chart1.Series.SuspendUpdates();
+                    chart1.Series.ResumeUpdates();
                     break;
                 case 2:
                     chart1.Series["Series1"].Enabled = false;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = true;
+
+                    chart1.Series.Invalidate();
+                    chart1.Series.SuspendUpdates();
+                    chart1.Series.ResumeUpdates();
                     break;
             }
             chart1.Update();
@@ -340,10 +356,19 @@ namespace TECAS_Titration_Software
                                 / (chart1.Series["Series2"].Points[PointIndex - 1].XValue - chart1.Series["Series2"].Points[PointIndex - 2].XValue);
                     chart1.Series["Series3"].Points.AddXY(AccumVolInf, SecDer);
 
-                    sw.Write(",," + chart1.Series["Series1"].Points[PointIndex-1].XValue + "," 
-                        + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] +",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue 
-                        + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series3"].Points[PointIndex - 1].XValue 
-                        + "," + chart1.Series["Series3"].Points[PointIndex - 1].YValues[0] + ",," + label11.Text + "\n");
+                    if (PointIndex == 1)
+                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex-1].XValue + "," 
+                            + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] +",,,0,0,,,0,0,," + label11.Text + "\n");
+                    if (PointIndex == 2)
+                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + ","
+                                + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue
+                                + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,,0,0,," + label11.Text + "\n");
+                    if (PointIndex > 2)
+                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + ","
+                                + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue
+                                + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series3"].Points[PointIndex - 1].XValue
+                                + "," + chart1.Series["Series3"].Points[PointIndex - 1].YValues[0] + ",," + label11.Text + "\n");
+                    sw.Flush();
                 }));
             }
         }
