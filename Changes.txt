@@ -1,0 +1,7 @@
+Introduced End Point
+Fixed GUI significant digits
+Changed refresh when changing the graph type
+Fixed Pause
+Minor changes to the GUI
+Changed file template and saving mode
+Fixed when stop and start dies not start from 0
