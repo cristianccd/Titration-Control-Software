@@ -1,0 +1,8 @@
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\bin\x64\Release\TECAS Titration Software.exe
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\bin\x64\Release\TECAS Titration Software.pdb
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS Titration Software.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS_Titration_Software.Form1.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS_Titration_Software.Properties.Resources.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS Titration Software.csproj.GenerateResource.Cache
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS Titration Software.exe
+C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\x64\Release\TECAS Titration Software.pdb
