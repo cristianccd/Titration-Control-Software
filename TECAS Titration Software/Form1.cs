@@ -19,10 +19,33 @@ namespace TECAS_Titration_Software
         {
             InitializeComponent();
         }
-
+        //Variables
         string _LoadCal;
-        double SyrCalSlope, SyrCalIntercept, SyrR2, SyrDiameter, SyrCapacity;
+        double SyrCalSlope, SyrCalIntercept, SyrR2, SyrDiameter, SyrCapacity, FirstpHVal, VoltoInf;
         int SyrCOM;
+        bool FirstpH=true;
+        StreamWriter sw;
+
+        //Labjack Variables (shared)
+        private U3 u3;
+        LJUD.IO ioType = 0;
+        LJUD.CHANNEL channel = 0;
+        double dblValue = 0, dummyDouble = 0;
+        int dummyInt = 0;
+
+        //Other Vars
+        double AccumVolInf, Ticks;
+        DateTime ExpStart;
+        System.Timers.Timer aTimer, bTimer;
+
+        //pH Vars
+        double pHAccVal, pHAvgVal, pHDeviation, FirstDer, SecDer;
+        int PointIndex;
+        DateTime InfStart;
+
+        bool Paused = false;
+
+        //------------------------------------------------------------------------------------
         private void syringeCalibrationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -147,37 +170,6 @@ namespace TECAS_Titration_Software
                 return false;
             }
 
-            /*if (comboBox2.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select a correct Subsampling", "Error Subsampling!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            try
-            {
-                switch (comboBox2.SelectedIndex)
-                {
-                    case 0:
-                        SubSamp = 500;
-                        break;
-                    case 1:
-                        SubSamp = 1000;
-                        break;
-                    case 2:
-                        SubSamp = 2000;
-                        break;
-                    case 3:
-                        SubSamp = 3000;
-                        break;
-                    case 4:
-                        SubSamp = 4000;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error Subsampling rate!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }*/
             if (checkBox2.Checked == false || checkBox3.Checked == false)
             {
                 MessageBox.Show("Calibrations not loaded, please load the files", "Error Calibrations!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -185,17 +177,6 @@ namespace TECAS_Titration_Software
             }
             return true;        
         }
-
-        //Labjack Variables (shared)
-        private U3 u3;
-        LJUD.IO ioType = 0;
-        LJUD.CHANNEL channel = 0;
-        double dblValue = 0, dummyDouble = 0;
-        int dummyInt = 0;
-        //Other Vars
-        double AccumVolInf, Ticks;
-        DateTime ExpStart;
-        System.Timers.Timer aTimer, bTimer;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -212,6 +193,9 @@ namespace TECAS_Titration_Software
                 MessageBox.Show(ex.Message, "Port opening", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            //Calculate the real volume to infuse
+            VoltoInf = (AdditionVol - SyrCalIntercept) / SyrCalSlope;
+
             //Configure the pump
             serialPort1.Write("STP\r\n");
             System.Threading.Thread.Sleep(20);
@@ -227,7 +211,7 @@ namespace TECAS_Titration_Software
             System.Threading.Thread.Sleep(20);
             serialPort1.Write("VOL UL\r\n");
             System.Threading.Thread.Sleep(20);
-            serialPort1.Write("VOL " + String.Format("{0:000.0}", AdditionVol) + "\r\n");
+            serialPort1.Write("VOL " + String.Format("{0:000.0}", VoltoInf) + "\r\n");
             System.Threading.Thread.Sleep(20);
 
             //Configure the DAQ
@@ -257,8 +241,14 @@ namespace TECAS_Titration_Software
             pHAccVal = 0;
             pHAvgVal = 0;
             Ticks = 0;
-            //Calculate the real volume to infuse
-            AdditionVol = (AdditionVol - SyrCalIntercept) / SyrCalSlope;
+            FirstpH = true;
+
+            label5.Text="0.000";
+            label9.Text="0 ul";
+            label13.Text="0.0000 V";
+            label11.Text="0 days 00:00:00";
+            label7.Text="0.000";
+            
             //Clear the graph
             foreach (var series in chart1.Series)
                 series.Points.Clear();
@@ -269,6 +259,24 @@ namespace TECAS_Titration_Software
             bTimer = new System.Timers.Timer(50);
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEventA);
             bTimer.Elapsed += new ElapsedEventHandler(OnTimedEventB);
+
+            //Export Data
+            string _FirstLine = "pH Set: "+ Convert.ToString(pHEnd) +",VOLUME,Volume,pH,,DPH/DV,Volume, dpH/dV,,D(DPH)/D(DV),Volume,d(dpH)/d(dV),,Time\n";
+            string[] Content = new string[chart1.Series["Series1"].Points.Count];
+            string Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Calcification Experiments";
+            try
+            {
+                if (!System.IO.Directory.Exists(Path))
+                    System.IO.Directory.CreateDirectory(Path);
+                sw = new StreamWriter(Path + @"\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + " Titration.csv");
+                sw.Write(_FirstLine);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //End Export Data
+
             aTimer.Enabled = true;
             bTimer.Enabled = true;
         }
@@ -278,36 +286,7 @@ namespace TECAS_Titration_Software
         {
             if (MessageBox.Show("Are you sure you want to stop?", "Stop?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
-            if(serialPort1.IsOpen)
-                serialPort1.Close();
-            aTimer.Enabled = false;
-            bTimer.Enabled = false;
-            //Enable start again
-            button1.Enabled = true;
-            button2.Enabled = false;
-            button3.Enabled = false;
-            panel4.Enabled = true;
-            //Export Data
-            string _FirstLine = "VOLUME,Volume,pH,,DPH/DV,Volume, dpH/dV,,D(DPH)/D(DV),Volume,d(dpH)/d(dV),,Total Time: " + label11.Text + "\n";
-            string[] Content = new string[chart1.Series["Series1"].Points.Count];
-            string Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Calcification Experiments";
-            try
-            {
-                if (!System.IO.Directory.Exists(Path))
-                    System.IO.Directory.CreateDirectory(Path);
-                StreamWriter sw = new StreamWriter(Path + @"\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + " Titration.csv");
-                sw.Write(_FirstLine);
-                for (int i = 0; i < chart1.Series["Series1"].Points.Count; i++)
-                {
-                    sw.Write("," + chart1.Series["Series1"].Points[i].XValue + "," + chart1.Series["Series1"].Points[i].YValues[0] + ",,," + chart1.Series["Series2"].Points[i].XValue + "," + chart1.Series["Series2"].Points[i].YValues[0] + ",,," + chart1.Series["Series3"].Points[i].XValue + "," + chart1.Series["Series3"].Points[i].YValues[0] + "\n");
-                }
-                sw.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            //End Export Data
+            Stop();
         }
 
         //Change graphs series
@@ -336,11 +315,10 @@ namespace TECAS_Titration_Software
                     chart1.Series["Series3"].Enabled = true;
                     break;
             }
+            chart1.Update();
         }
 
-        double pHAccVal, pHAvgVal, pHDeviation, FirstDer, SecDer;
-        int PointIndex;
-        DateTime InfStart;
+        //Add points to the Graph
         private void OnTimedEventA(Object source, ElapsedEventArgs e)
         {
             if (InvokeRequired)
@@ -351,6 +329,7 @@ namespace TECAS_Titration_Software
                     serialPort1.Write("RUN\r\n");
                     System.Threading.Thread.Sleep(20);
                     AccumVolInf = AccumVolInf + AdditionVol;
+                    label9.Text = String.Format("{0:00000.00}", AccumVolInf) + " ul";
                     PointIndex = chart1.Series["Series1"].Points.Count;
                     chart1.Series["Series1"].Points.AddXY(AccumVolInf, pHAvgVal);         
                     
@@ -363,10 +342,16 @@ namespace TECAS_Titration_Software
                         SecDer = (chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] - chart1.Series["Series2"].Points[PointIndex - 2].YValues[0])
                                 / (chart1.Series["Series2"].Points[PointIndex - 1].XValue - chart1.Series["Series2"].Points[PointIndex - 2].XValue);
                     chart1.Series["Series3"].Points.AddXY(AccumVolInf, SecDer);
+
+                    sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + "," 
+                        + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] +",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue 
+                        + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series3"].Points[PointIndex - 1].XValue 
+                        + "," + chart1.Series["Series3"].Points[PointIndex - 1].YValues[0] + ",," + label11.Text + "\n");
                     bTimer.Enabled = true;
                 }));
             }
         }
+        //Get the DAQ Results every 50ms
         private void OnTimedEventB(Object source, ElapsedEventArgs e)
         {
             if (InvokeRequired)
@@ -392,18 +377,43 @@ namespace TECAS_Titration_Software
                             if (Ticks >= 10)
                             {
                                 pHAvgVal = pHAccVal / 10;
+                                
+                                //Check for pH start and end
+                                if (checkBox1.Checked)
+                                {
+                                    if (FirstpH)
+                                        FirstpHVal = pHAvgVal;
+                                    else
+                                    {
+                                        if (FirstpHVal < pHEnd) //pH is increasing
+                                        {
+                                            if (pHAvgVal >= pHEnd) //stop
+                                            {
+                                                Stop();
+                                            }
+                                        }
+                                        else //pH decreasing
+                                        {
+                                            if (pHAvgVal <= pHEnd) //stop
+                                            {
+                                                Stop();
+                                            }
+                                        }
+                                    }
+                                }
+                                label5.Text = String.Format("{0:0.000}", pHAvgVal);
                                 Ticks = 0;
                                 pHAccVal = 0;
+                                if (checkBox1.Checked == true)
+                                {
+                                    pHDeviation = pHEnd - pHAvgVal;
+                                    label7.Text = String.Format("{0:0.000}", pHDeviation);
+                                } 
                             }
-                            //pHAvgVal = dblValue;
-                            if(checkBox1.Checked==true)
-                                pHDeviation = Convert.ToDouble(textBox2.Text) - pHAvgVal;
+
                             //Refresh GUI
-                            label13.Text = String.Format("{0:0.000000000 V}", dblValue);
-                            label5.Text = String.Format("{0:0.0000000}", pHAvgVal);
-                            label7.Text = String.Format("{0:0.0000000}", pHDeviation);
+                            label13.Text = String.Format("{0:0.00000 V}", dblValue);
                             label11.Text = String.Format("{0}", (DateTime.Now - ExpStart).Days) + " days " + String.Format("{0:00}", (DateTime.Now - ExpStart).Hours) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Minutes) + ":" + String.Format("{0:00}", (DateTime.Now - ExpStart).Seconds);
-                            label9.Text = String.Format("{0:00000.00}", AccumVolInf) + " ul";
                         }
                         try
                         {
@@ -431,19 +441,35 @@ namespace TECAS_Titration_Software
             if (serialPort1.IsOpen)
                 serialPort1.Close();
         }
-        bool Paused=false;
+
         private void button2_Click(object sender, EventArgs e)
         {
             if(!Paused)
             {   
                 aTimer.Enabled = false;
                 button2.Text="Unpause";
+                Paused = true;
             }
             else
             {
                 aTimer.Enabled = true;
                 button2.Text = "Pause";
+                Paused = false;
             }
+        }
+
+        private void Stop()
+        {
+                if (serialPort1.IsOpen)
+                    serialPort1.Close();
+                aTimer.Enabled = false;
+                bTimer.Enabled = false;
+                sw.Close();
+                //Enable start again
+                button1.Enabled = true;
+                button2.Enabled = false;
+                button3.Enabled = false;
+                panel4.Enabled = true;       
         }
     }
 }

@@ -83,9 +83,6 @@
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -97,12 +94,14 @@
             // chart1
             // 
             chartArea1.AxisX.LabelStyle.Format = "#";
+            chartArea1.AxisX.Title = "Volume [ul]";
             chartArea1.AxisY.LabelStyle.Format = "#.###";
+            chartArea1.AxisY.Title = "pH";
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(18, 152);
+            this.chart1.Location = new System.Drawing.Point(7, 152);
             this.chart1.Name = "chart1";
             series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea1";
@@ -434,9 +433,9 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(244, 34);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(63, 13);
+            this.label11.Size = new System.Drawing.Size(83, 13);
             this.label11.TabIndex = 14;
-            this.label11.Text = "00:00:00 hs";
+            this.label11.Text = "0 days 00:00:00";
             // 
             // label10
             // 
@@ -474,9 +473,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(75, 34);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 13);
+            this.label7.Size = new System.Drawing.Size(34, 13);
             this.label7.TabIndex = 8;
-            this.label7.Text = "0.000000";
+            this.label7.Text = "0.000";
             // 
             // label6
             // 
@@ -495,9 +494,9 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.label5.Location = new System.Drawing.Point(37, 8);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 16);
+            this.label5.Size = new System.Drawing.Size(44, 16);
             this.label5.TabIndex = 6;
-            this.label5.Text = "0.000000";
+            this.label5.Text = "0.000";
             // 
             // label4
             // 
@@ -600,9 +599,6 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.label15);
-            this.panel4.Controls.Add(this.comboBox2);
-            this.panel4.Controls.Add(this.label14);
             this.panel4.Controls.Add(this.label89);
             this.panel4.Controls.Add(this.comboBox3);
             this.panel4.Controls.Add(this.checkBox1);
@@ -616,42 +612,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(311, 74);
             this.panel4.TabIndex = 92;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label14.Location = new System.Drawing.Point(179, 28);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(82, 13);
-            this.label14.TabIndex = 89;
-            this.label14.Text = "Subsampling:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label15.Location = new System.Drawing.Point(179, 41);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(67, 13);
-            this.label15.TabIndex = 91;
-            this.label15.Text = "[sec/sam.]";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormatString = "N0";
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "0.5",
-            "1",
-            "2",
-            "3",
-            "4"});
-            this.comboBox2.Location = new System.Drawing.Point(246, 44);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(61, 21);
-            this.comboBox2.TabIndex = 90;
             // 
             // Form1
             // 
@@ -738,9 +698,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label14;
 
     }
 }

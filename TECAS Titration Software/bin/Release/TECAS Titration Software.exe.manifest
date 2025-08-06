@@ -48,14 +48,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="772096">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="771584">
       <assemblyIdentity name="TECAS Titration Software" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>0Adff4qxMLi5p7P94jmw51p0Qms=</dsig:DigestValue>
+        <dsig:DigestValue>TQZgDTlC2aSJRmKcG2JBFNv+OKY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
