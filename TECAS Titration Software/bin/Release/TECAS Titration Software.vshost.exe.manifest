@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="772608">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TECAS Titration Software.exe" size="772096">
       <assemblyIdentity name="TECAS Titration Software" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>tX54lE4eLcH0F5SPUin2SzbU020=</dsig:DigestValue>
+        <dsig:DigestValue>b0H6/bvIerkiSR4vfqeWFNDTGkY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -81,7 +81,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>WYfw2/Y454SbvllG4gLeT5Qy6Xo=</dsig:DigestValue>
+      <dsig:DigestValue>2+tXW8Vjt5B1piXT13W7vB8waFU=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Untitled.ico" size="370070">

@@ -18,6 +18,7 @@ namespace TECAS_Titration_Software
         public Form1()
         {
             InitializeComponent();
+            comboBox1.SelectedIndex = 0;
         }
         //Variables
         string _LoadCal;
@@ -39,7 +40,8 @@ namespace TECAS_Titration_Software
         System.Timers.Timer aTimer;
 
         //pH Vars
-        double pHAccVal, pHAvgVal, pHDeviation, FirstDer, SecDer;
+        double pHAccVal, pHAvgVal, pHDeviation;
+        //double FirstDer, SecDer;
         int PointIndex;
         DateTime InfStart;
 
@@ -152,9 +154,9 @@ namespace TECAS_Titration_Software
             try
             {
                 AdditionVol = Convert.ToDouble(textBox3.Text);
-                if (AdditionVol < 30 )
+                if (AdditionVol < 20 )
                 {
-                    MessageBox.Show("Addition Volume should be over 30ul!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Addition Volume should be over 20ul!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -296,41 +298,34 @@ namespace TECAS_Titration_Software
                     chart1.Series["Series1"].Enabled = true;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = false;
-
-                    chart1.Series.Invalidate();
-                    chart1.Series.SuspendUpdates();
-                    chart1.Series.ResumeUpdates();
                     break;
                 case 0:
                     chart1.Series["Series1"].Enabled = true;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = false;
-
-                    chart1.Series.Invalidate();
-                    chart1.Series.SuspendUpdates();
-                    chart1.Series.ResumeUpdates();
                     break;
                 case 1:
                     chart1.Series["Series1"].Enabled = false;
                     chart1.Series["Series2"].Enabled = true;
                     chart1.Series["Series3"].Enabled = false;
-
-                    chart1.Series.Invalidate();
-                    chart1.Series.SuspendUpdates();
-                    chart1.Series.ResumeUpdates();
                     break;
                 case 2:
                     chart1.Series["Series1"].Enabled = false;
                     chart1.Series["Series2"].Enabled = false;
                     chart1.Series["Series3"].Enabled = true;
-
-                    chart1.Series.Invalidate();
-                    chart1.Series.SuspendUpdates();
-                    chart1.Series.ResumeUpdates();
                     break;
             }
+
+            chart1.Series.Invalidate();
+            chart1.ChartAreas[0].RecalculateAxesScale();
             chart1.Update();
         }
+
+        List <double> x = new List <double>();
+        List <double> Fx = new List <double>();
+        List <double> FirstDer = new List <double>();
+        List <double> SecDer = new List <double>();
+
 
         //Add points to the Graph
         private void OnTimedEventA(Object source, ElapsedEventArgs e)
@@ -346,28 +341,29 @@ namespace TECAS_Titration_Software
                     chart1.Series["Series1"].Points.AddXY(AccumVolInf, pHAvgVal);
                     PointIndex = chart1.Series["Series1"].Points.Count;
 
-                    if (PointIndex > 1 && (chart1.Series["Series1"].Points[PointIndex - 1].XValue - chart1.Series["Series1"].Points[PointIndex - 2].XValue) != 0)
-                        FirstDer = (chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] - chart1.Series["Series1"].Points[PointIndex - 2].YValues[0])
-                                / (chart1.Series["Series1"].Points[PointIndex - 1].XValue - chart1.Series["Series1"].Points[PointIndex - 2].XValue);
-                    chart1.Series["Series2"].Points.AddXY(AccumVolInf, FirstDer);
-                    
-                    if (PointIndex > 2 && (chart1.Series["Series2"].Points[PointIndex - 1].XValue - chart1.Series["Series2"].Points[PointIndex - 2].XValue) != 0)
-                        SecDer = (chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] - chart1.Series["Series2"].Points[PointIndex - 2].YValues[0])
-                                / (chart1.Series["Series2"].Points[PointIndex - 1].XValue - chart1.Series["Series2"].Points[PointIndex - 2].XValue);
-                    chart1.Series["Series3"].Points.AddXY(AccumVolInf, SecDer);
+                    x.Add(chart1.Series["Series1"].Points[PointIndex - 1].XValue);
+                    Fx.Add(chart1.Series["Series1"].Points[PointIndex - 1].YValues[0]);
 
-                    if (PointIndex == 1)
-                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex-1].XValue + "," 
-                            + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] +",,,0,0,,,0,0,," + label11.Text + "\n");
-                    if (PointIndex == 2)
-                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + ","
-                                + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue
-                                + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,,0,0,," + label11.Text + "\n");
-                    if (PointIndex > 2)
-                        sw.Write(",," + chart1.Series["Series1"].Points[PointIndex - 1].XValue + ","
-                                + chart1.Series["Series1"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series2"].Points[PointIndex - 1].XValue
-                                + "," + chart1.Series["Series2"].Points[PointIndex - 1].YValues[0] + ",,," + chart1.Series["Series3"].Points[PointIndex - 1].XValue
-                                + "," + chart1.Series["Series3"].Points[PointIndex - 1].YValues[0] + ",," + label11.Text + "\n");
+                    if (PointIndex <= 2)
+                        sw.Write(",," + x[PointIndex-1] + ","
+                            + Fx[PointIndex-1] + ",,,0,0,,,0,0,," + label11.Text + "\n");
+
+                    if (PointIndex > 2 && PointIndex <= 4)
+                    {
+                        FirstDer.Add((Fx[PointIndex - 1] - Fx[PointIndex - 3]) / (2 * AdditionVol));
+                        chart1.Series["Series2"].Points.AddXY(AccumVolInf, FirstDer[PointIndex-3]);
+                        sw.Write(",," + x[PointIndex-1] + ","
+                            + Fx[PointIndex - 1] + ",,," + x[PointIndex - 2] + "," + FirstDer[PointIndex-3] + ",,,0,0,," + label11.Text + "\n");
+                    }
+                    if(PointIndex > 4)
+                    {
+                        FirstDer.Add((Fx[PointIndex - 1] - Fx[PointIndex - 3]) / (2 * AdditionVol));
+                        SecDer.Add((FirstDer[PointIndex-3]-FirstDer[PointIndex-5])/(2*AdditionVol));
+                        chart1.Series["Series2"].Points.AddXY(AccumVolInf, FirstDer[PointIndex - 3]);
+                        chart1.Series["Series3"].Points.AddXY(AccumVolInf, SecDer[PointIndex - 5]);
+                        sw.Write(",," + x[PointIndex - 1] + "," + Fx[PointIndex - 1] + ",,," + x[PointIndex - 2] + "," + FirstDer[PointIndex - 3] +
+                            ",,," + x[PointIndex-3] + "," + SecDer[PointIndex-5] +",," + label11.Text + "\n");
+                    }
                     sw.Flush();
                 }));
             }
@@ -489,6 +485,11 @@ namespace TECAS_Titration_Software
             timer1.Enabled = false;
             aTimer.Enabled = false;
             sw.Close();
+            sw.Dispose();
+            Fx.Clear();
+            x.Clear();
+            FirstDer.Clear();
+            SecDer.Clear();
             //Enable start again
             button1.Enabled = true;
             button2.Enabled = false;
