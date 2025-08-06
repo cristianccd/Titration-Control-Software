@@ -12,3 +12,20 @@ C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software 
 C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.5\TECAS Titration Software\obj\Release\TECAS Titration Software.exe
 C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.5\TECAS Titration Software\obj\Release\TECAS Titration Software.pdb
 C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.5\TECAS Titration Software\obj\Release\TECAS Titration Software.csprojResolveAssemblyReference.cache
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.exe.config
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.pdb
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.exe.config
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.exe
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.pdb
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.exe.manifest
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.application
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.exe
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\TECAS Titration Software.pdb
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\bin\Release\LJUDDotNet.dll
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS_Titration_Software.Form1.resources
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS_Titration_Software.Properties.Resources.resources
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.csproj.GenerateResource.Cache
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.exe.manifest
+C:\Users\User\Documents\MEGA\ESR4\Software\Titration Software\TECAS Titration Software V1.6\TECAS Titration Software\obj\Release\TECAS Titration Software.application

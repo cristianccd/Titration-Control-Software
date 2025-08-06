@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>567A0WNNn1uLPP6bssrle7tCa5s=</dsig:DigestValue>
+        <dsig:DigestValue>tX54lE4eLcH0F5SPUin2SzbU020=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>XhmNWIUSMbaVlaWABznwa4dcyj0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="TECAS Titration Software.pdb" size="38400">
+  <file name="TECAS Titration Software.pdb" size="42496">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>3xUMwNoqOxCELM/iMptd92nanQc=</dsig:DigestValue>
+      <dsig:DigestValue>WYfw2/Y454SbvllG4gLeT5Qy6Xo=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Untitled.ico" size="370070">

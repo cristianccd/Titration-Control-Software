@@ -341,7 +341,7 @@ namespace TECAS_Titration_Software
                 {                                       
                     serialPort1.Write("RUN\r\n");
                     System.Threading.Thread.Sleep(20);
-                    AccumVolInf = AccumVolInf + AdditionVol;
+                    AccumVolInf += AdditionVol;
                     label9.Text = String.Format("{0:00000.00}", AccumVolInf) + " ul";
                     chart1.Series["Series1"].Points.AddXY(AccumVolInf, pHAvgVal);
                     PointIndex = chart1.Series["Series1"].Points.Count;
