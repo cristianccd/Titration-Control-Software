@@ -7,3 +7,16 @@ C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software\TEC
 C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software\TECAS Titration Software\obj\Debug\TECAS Titration Software.exe
 C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software\TECAS Titration Software\obj\Debug\TECAS Titration Software.pdb
 C:\Users\User\Documents\Visual Studio 2013\Projects\TECAS Titration Software - Copy (2)\TECAS Titration Software\obj\Debug\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\bin\Debug\TECAS Titration Software.exe.manifest
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\bin\Debug\TECAS Titration Software.application
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\bin\Debug\TECAS Titration Software.exe
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\bin\Debug\TECAS Titration Software.pdb
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\bin\Debug\LJUDDotNet.dll
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.csprojResolveAssemblyReference.cache
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS_Titration_Software.Form1.resources
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS_Titration_Software.Properties.Resources.resources
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.csproj.GenerateResource.Cache
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.exe.manifest
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.application
+C:\Users\User\Dropbox\ESR4\Software\Titration Software\TECAS Titration Software V1.4\TECAS Titration Software\obj\Debug\TECAS Titration Software.pdb

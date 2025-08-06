@@ -7,14 +7,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="TECAS Titration Software.exe.manifest" size="3877">
+    <dependentAssembly dependencyType="install" codebase="TECAS Titration Software.exe.manifest" size="4244">
       <assemblyIdentity name="TECAS Titration Software.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>fbE05e6dkJWz+AE+cSMcMHGGy3M=</dsig:DigestValue>
+        <dsig:DigestValue>a34OZE6bV6TQ57okVT2iEQEhguc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

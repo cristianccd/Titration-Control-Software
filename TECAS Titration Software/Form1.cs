@@ -223,9 +223,9 @@ namespace TECAS_Titration_Software
                 LJUD.ePut(u3.ljhandle, LJUD.IO.PUT_ANALOG_ENABLE_PORT, 0, 31, 16);//first 4 FIO analog b0000000000001111
                 LJUD.AddRequest(u3.ljhandle, LJUD.IO.GET_AIN_DIFF, 4, 0, 32, 0);//Request FIO4
             }
-            catch (LabJackUDException)
+            catch (LabJackUDException h)
             {
-                MessageBox.Show("Error opening DAQ", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(h.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 serialPort1.Close();
                 return;
             }
@@ -418,7 +418,7 @@ namespace TECAS_Titration_Software
                     if (h.LJUDError == U3.LJUDERROR.NO_MORE_DATA_AVAILABLE)
                         requestedExit = true;//no more data to read
                     else
-                        MessageBox.Show("Error getting DAQ data", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(h.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             if (Stoped)
